@@ -39,27 +39,25 @@ class BaseManager:
         return cls.get_by_id(_id)
 
 
+class ListManager(BaseManager):
+    @classmethod
+    def get_by_id_list(cls, ids: Sequence):
+        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
+
+
 class SizeManager(BaseManager):
     model = Size
     serializer = SizeSerializer
 
 
-class IngredientManager(BaseManager):
+class IngredientManager(ListManager):
     model = Ingredient
     serializer = IngredientSerializer
 
-    @classmethod
-    def get_by_id_list(cls, ids: Sequence):
-        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
 
-
-class BeverageManager(BaseManager):
+class BeverageManager(ListManager):
     model = Beverage
     serializer = BeverageSerializer
-
-    @classmethod
-    def get_by_id_list(cls, ids: Sequence):
-        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
 
 
 class OrderManager(BaseManager):
