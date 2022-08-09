@@ -6,10 +6,19 @@ on:
             - main
 jobs:
     coverage:
-        runs-on: ubuntu-latest
-        steps:
-          - name: Python Cov 
-            uses: orgoro/coverage@v2
-            with:
-                coverageFile: path/to/coverage.xml
-                token: ${{ secrets.GITHUB_TOKEN }}
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Build coverage file
+        run: |
+          pytest --cache-clear --cov=app app/test --cov-fail-under=80 > pytest-coverage.txt
+      - name: Comment coverage
+        uses: coroo/pytest-coverage-commentator@v1.0.2
