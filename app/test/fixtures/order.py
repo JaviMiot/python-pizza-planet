@@ -1,6 +1,6 @@
 import pytest
 
-from ..utils.functions import (shuffle_list, get_random_sequence,
+from ..utils.functions import (get_random_sequence,
                                get_random_string)
 
 
@@ -24,7 +24,7 @@ def client_data():
 
 
 @pytest.fixture
-def create_order(client, create_ingredients, create_size, create_beverages, client_data, order_url) -> dict:
+def order_mock(create_ingredients, create_size, create_beverages, client_data):
     ingredients = [ingredient.get('_id') for ingredient in create_ingredients]
     beverages = [beverage.get('_id') for beverage in create_beverages]
     size_id = create_size.json.get('_id')
@@ -34,6 +34,11 @@ def create_order(client, create_ingredients, create_size, create_beverages, clie
         'beverages': beverages,
         'size_id': size_id
     }
+    return order_mock
+
+
+@pytest.fixture
+def create_order(client, order_mock, order_url) -> dict:
     response = client.post(order_url, json=order_mock)
     return response
 
@@ -43,6 +48,6 @@ def create_orders(create_order) -> list:
 
     orders = []
     for _ in range(10):
-        new_order = create_order.json
-        orders.append(new_order)
+        new_order = create_order
+        orders.append(new_order.json)
     return orders
