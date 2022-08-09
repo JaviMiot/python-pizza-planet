@@ -1,4 +1,3 @@
-![coverage badge](./coverage.svg)
 <h1 align="center"> Python Pizza Planet </h1>
 
 ![python-badge](https://img.shields.io/badge/python-%2314354C.svg?style=for-the-badge&logo=python&logoColor=white)
@@ -41,7 +40,7 @@ python3 -m venv venv
 _For linux/MacOS users:_
 
 ```bash
-source venv/bin/activate 
+source venv/bin/activate
 ```
 
 _For windows users:_
@@ -69,7 +68,7 @@ python3 manage.py db upgrade
 _For linux/MacOS users:_
 
 ```bash
-export FLASK_ENV=development 
+export FLASK_ENV=development
 ```
 
 _For windows users:_

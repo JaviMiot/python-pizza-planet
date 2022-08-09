@@ -25,12 +25,3 @@ jobs:
           pytest --cache-clear --cov=app/test/ --cov-fail-under=80 > pytest-coverage.txt
       - name: Comment coverage
         uses: coroo/pytest-coverage-commentator@v1.0.2
-
-      - name: Coverage Badge
-        run: coverage-badge > coverage.svg
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-            force_with_lease: true
-            github_token: ${{ secrets.TOKEN }}
-            branch: ${{ github.ref }}
