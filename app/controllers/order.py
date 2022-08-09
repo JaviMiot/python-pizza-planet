@@ -13,7 +13,7 @@ class OrderController(BaseController):
 
     @staticmethod
     def calculate_order_price(size_price: float, details: list):
-        price = sum(detail.price for detail in details)
+        price = sum(detail.price for detail in details) + size_price
         return round(price, 2)
 
     @classmethod
