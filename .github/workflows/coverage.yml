@@ -1,0 +1,15 @@
+name: Coverage
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  coverage:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Python Coverage
+      uses: orgoro/coverage@v2
+      with:
+        coverageFile: path/to/coverage.xml
+        token: ${{ secrets.GITHUB_TOKEN }}
