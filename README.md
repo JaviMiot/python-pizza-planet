@@ -1,3 +1,4 @@
+![coverage badge](./coverage.svg)
 <h1 align="center"> Python Pizza Planet </h1>
 
 ![python-badge](https://img.shields.io/badge/python-%2314354C.svg?style=for-the-badge&logo=python&logoColor=white)
