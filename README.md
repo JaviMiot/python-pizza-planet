@@ -63,6 +63,30 @@ python3 manage.py db migrate
 python3 manage.py db upgrade
 ```
 
+- You can start the database run the next command in the root path.
+
+```bash
+make init_db
+```
+
+### Populate db with faker data
+
+- You can populate the database with faker data run the next command in the root path. (first you need init the db)
+
+```bash
+make faker_db
+```
+
+**Note:** if you are working in windows need install Chocolatey package manager and install the pakage make.
+
+```bash
+choco install make
+make init_db
+make faker_db
+```
+
+### Run Bakend
+
 - If you want to use the hot reload feature set FLASK_ENV before running the project:
 
 _For linux/MacOS users:_
