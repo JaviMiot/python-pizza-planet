@@ -57,7 +57,7 @@ class DdSeeder(Seeder):
             init={
                 '_id': generator.Sequence(end=total_orders),
                 'client_name': NameGenerator(),
-                'client_dni': generator.String('[1-9]{4}-[1-9]{4}'),
+                'client_dni': 'DNI',
                 'client_address': generator.String('\c{8}-\c{8}'),
                 'client_phone': generator.String('[5-9]{4}-[0-9]{9}'),
                 'date': DateGenerator(start_date=datetime(2022, 1, 1, tzinfo=timezone.utc)),
@@ -104,8 +104,9 @@ class DdSeeder(Seeder):
                 [ingredient.price for ingredient in ingredients
                  if ingredient._id == order_detail.ingredient_id])
 
-         # Calculate total price to store in order table
+         # Calculate total price and generate a Dni for user to store in order table
         for order in orders_created:
+            order.client_dni += f'-{order.client_name}'
             total_ingredients = sum([
                 detail.ingredient_price for detail in orders_details_created
                 if detail.order_id == order._id])
