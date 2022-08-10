@@ -1,10 +1,11 @@
 from typing import Any, List, Optional, Sequence
 
 from sqlalchemy.sql import text, column
+from sqlalchemy import func, desc
 
 from .models import Ingredient, Order, OrderDetail, BeverageDetail, Size, db, Beverage
 from .serializers import (IngredientSerializer, OrderSerializer,
-                          SizeSerializer, BeverageSerializer, ma)
+                          SizeSerializer, BeverageSerializer, OrderDetailSerializer, ma)
 
 
 class BaseManager:
@@ -60,6 +61,24 @@ class BeverageManager(ListManager):
     serializer = BeverageSerializer
 
 
+class OrderDetailManager(BaseManager):
+    model = OrderDetail
+    serializer = OrderDetailSerializer
+
+    @classmethod
+    def get_top_ingredient(cls):
+        _object = cls.session.query(func.count(
+            cls.model.ingredient_id).label('count'),
+            cls.model.ingredient_id).group_by(cls.model.ingredient_id).order_by(desc('count')).first()
+
+        ingredient = Ingredient.query.get(_object.ingredient_id)
+        top_ingredient = {
+            'name': ingredient.name,
+            'count': _object.count
+        }
+        return top_ingredient
+
+
 class OrderManager(BaseManager):
     model = Order
     serializer = OrderSerializer
@@ -76,6 +95,23 @@ class OrderManager(BaseManager):
                              for beverage in beverages))
         cls.session.commit()
         return cls.serializer().dump(new_order)
+
+    @classmethod
+    def get_month_revenue(cls):
+        month = cls.session.query(
+            func.strftime("%m", cls.model.date).label('month'),
+            func.sum(cls.model.total_price).label('total')).group_by('month').order_by(desc('total')).first()
+        return {'month_number': month[0], 'total': month[1]}
+
+    @classmethod
+    def get_best_customers(cls):
+        customers = cls.session.query(
+            cls.model.client_name, cls.model.client_dni,
+            func.count(cls.model.client_dni).label('count')
+        ).group_by(cls.model.client_dni).order_by(desc('count')).limit(3).all()
+
+        return [{'posicion': pos + 1, 'name': customer.client_name, 'dni': customer.client_dni}
+                for pos, customer in enumerate(customers)]
 
     @classmethod
     def update(cls):
