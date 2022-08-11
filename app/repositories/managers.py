@@ -6,7 +6,7 @@ from sqlalchemy import func, desc
 
 from .models import Ingredient, Order, OrderDetail, BeverageDetail, Size, db, Beverage
 from .serializers import (IngredientSerializer, OrderSerializer,
-                          SizeSerializer, BeverageSerializer, OrderDetailSerializer, ma)
+                          SizeSerializer, BeverageSerializer, ma)
 
 
 class BaseManager:
@@ -108,11 +108,6 @@ class IngredientManager(ListManager):
 class BeverageManager(ListManager):
     model = Beverage
     serializer = BeverageSerializer
-
-
-class OrderDetailManager(BaseManager):
-    model = OrderDetail
-    serializer = OrderDetailSerializer
 
 
 class OrderManager(BaseManager):
