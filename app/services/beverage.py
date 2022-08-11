@@ -8,7 +8,7 @@ beverage = Blueprint('beverage', __name__)
 
 
 @beverage.route('/', methods=POST)
-@base_service(ok_code=201)
+@base_service(status_code=201)
 def create_beverage():
     return BeverageController.create(request.json)
 
