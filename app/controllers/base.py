@@ -36,3 +36,28 @@ class BaseController:
             return cls.manager.update(_id, new_values), None
         except (SQLAlchemyError, RuntimeError) as ex:
             return None, str(ex)
+
+
+class BaseReportController:
+    manager: Optional[BaseManager] = None
+
+    @classmethod
+    def get_top_ingredient(cls):
+        try:
+            return cls.manager.get_top_ingredient(), None
+        except (SQLAlchemyError, RuntimeError) as ex:
+            return None, str(ex)
+
+    @classmethod
+    def get_month_revenue(cls):
+        try:
+            return cls.manager.get_month_revenue(), None
+        except (SQLAlchemyError, RuntimeError) as ex:
+            return None, str(ex)
+
+    @classmethod
+    def get_best_customers(cls):
+        try:
+            return cls.manager.get_best_customers(), None
+        except (SQLAlchemyError, RuntimeError) as ex:
+            return None, str(ex)
