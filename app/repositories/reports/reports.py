@@ -2,7 +2,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import func, desc
 
 from abc import ABC, abstractmethod
-from app.repositories.models import Ingredient, db
+from app.repositories.models import db
 
 
 class Report(ABC):
