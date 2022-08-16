@@ -1,14 +1,15 @@
 from sqlalchemy.exc import SQLAlchemyError
 
-from ..repositories.reports import BasicReportFactory
+from ..repositories.managers import ReportManager
+from .base import BaseReportController
 
 
-class ReportController():
+class ReportController(BaseReportController):
+    manager = ReportManager
 
     @classmethod
     def generate_report(cls):
         try:
-            report = BasicReportFactory()
-            return report.get_report().generate_report(), None
+            return cls.manager.generate_report(), None
         except (SQLAlchemyError, RuntimeError) as ex:
             return None, str(ex)
